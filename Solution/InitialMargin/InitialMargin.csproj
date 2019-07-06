@@ -2,17 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>Tommaso Belluzzo</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>Tommaso Belluzzo</Authors>
     <Company />
-    <Description>A .NET implementation of ISDA SIMM (Standard Initial Margin Model).</Description>
+    <Description>A .NET implementation of the Standard Initial Margin Model (SIMM).</Description>
+    <PackageTags>finance risk</PackageTags>
     <Copyright>Copyright ©2019 Tommaso Belluzzo</Copyright>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/TommasoBelluzzo/InitialMargin</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TommasoBelluzzo/InitialMargin</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage>en</NeutralLanguage>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

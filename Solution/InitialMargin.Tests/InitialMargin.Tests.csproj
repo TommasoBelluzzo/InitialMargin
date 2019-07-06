@@ -4,13 +4,16 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <IsPackable>false</IsPackable>
     <Authors>Tommaso Belluzzo</Authors>
+    <Company />
     <Description>Unit tests for the InitialMargin library.</Description>
     <Copyright>Copyright ©2019 Tommaso Belluzzo</Copyright>
     <PackageProjectUrl>https://github.com/TommasoBelluzzo/InitialMargin</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TommasoBelluzzo/InitialMargin</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <NeutralLanguage>English</NeutralLanguage>
+    <NeutralLanguage>en</NeutralLanguage>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
