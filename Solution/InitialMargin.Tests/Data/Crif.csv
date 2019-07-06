@@ -1,0 +1,142 @@
+RiskType	IMModel	ProductClass	Qualifier	Bucket	Label1	Label2	Amount	AmountCurrency	AmountUSD	CollectRegulations	PostRegulations	PortfolioID	TradeID	EndDate
+Risk_BaseCorr	SIMM	Credit	CDX HY						200,000.00	CFTC	CFTC	Global	M1	2021-07-04
+Risk_BaseCorr	SIMM	Credit	CDX HY						-300,000.00	CFTC	CFTC	Global	M2	2021-07-04
+Risk_BaseCorr	SIMM	Credit	CDX IG						100,000.00	CFTC	CFTC	Global	M3	2021-07-04
+Risk_BaseCorr	SIMM	Credit	iTraxx XO						450,000.00	CFTC	CFTC	Global	M4	2021-07-04
+Risk_Commodity	SIMM	Commodity	Coal Americas	1					3,000,000.00	CFTC	CFTC	Global	M5	2021-07-04
+Risk_Commodity	SIMM	Commodity	Coal Europe	1					-5,000,000.00	CFTC	CFTC	Global	M6	2021-07-04
+Risk_Commodity	SIMM	Commodity	Middle Distillates America	3					15,000,000.00	CFTC	CFTC	Global	M7	2021-07-04
+Risk_Commodity	SIMM	Commodity	Middle Distillates Europe	3					-20,000,000.00	CFTC	CFTC	Global	M8	2021-07-04
+Risk_Commodity	SIMM	Commodity	Middle Distillates Asia	3					32,000,000.00	CFTC	CFTC	Global	M9	2021-07-04
+Risk_Commodity	SIMM	Commodity	NA Natural Gas Gulf Coast	6					6,500,000.00	CFTC	CFTC	Global	M10	2021-07-04
+Risk_Commodity	SIMM	Commodity	NA Natural Gas West	6					4,000,000.00	CFTC	CFTC	Global	M11	2021-07-04
+Risk_Commodity	SIMM	Commodity	Freight Wet	10					35,000,000.00	CFTC	CFTC	Global	M12	2021-07-04
+Risk_Commodity	SIMM	Commodity	Freight Dry	10					-10,000,000.00	CFTC	CFTC	Global	M13	2021-07-04
+Risk_Commodity	SIMM	Commodity	Softs Coffee	14					2,500,000.00	CFTC	CFTC	Global	M14	2021-07-04
+Risk_Commodity	SIMM	Commodity	Livestock Feeder Cattle	15					-1,200,000.00	CFTC	CFTC	Global	M15	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:US3949181045	1	2y				100,000.00	CFTC	CFTC	Global	M16	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:US3949181045	1	5y				-1,500,000.00	CFTC	CFTC	Global	M17	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:US3949181045	1	3y				1,450,000.00	CFTC	CFTC	Global	M18	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:XS1061333921	1	10y				400,000.00	CFTC	CFTC	Global	M19	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:CH0419041295	4	1y	Sec			-650,000.00	CFTC	CFTC	Global	M20	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:JP1718441K71	4	1y				200,000.00	CFTC	CFTC	Global	M21	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:RU000A100H37	7	2y				-100,000.00	CFTC	CFTC	Global	M22	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:RU000A100H37	7	3y				150,000.00	CFTC	CFTC	Global	M23	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:XS1886258598	7	1y				-120,000.00	CFTC	CFTC	Global	M24	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:XS1120672716	7	2y				330,000.00	CFTC	CFTC	Global	M25	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:GB0702134646	11	2y				1,000,000.00	CFTC	CFTC	Global	M26	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:GB0702134646	11	10y				-475,000.00	CFTC	CFTC	Global	M27	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:GB0702134646	11	3y				-500,000.00	CFTC	CFTC	Global	M28	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:FR0003504418	Residual	2y				400,000.00	CFTC	CFTC	Global	M29	2021-07-04
+Risk_CreditQ	SIMM	Credit	ISIN:XS2023221601	Residual	10y				-300,000.00	CFTC	CFTC	Global	M30	2021-07-04
+Risk_CreditNonQ	SIMM	Credit	ISIN:US3949181045	1	3y				300,000.00	CFTC	CFTC	Global	M31	2021-07-04
+Risk_CreditNonQ	SIMM	Credit	ISIN:US3949181045	1	5y				700,000.00	CFTC	CFTC	Global	M32	2021-07-04
+Risk_CreditNonQ	SIMM	Credit	ISIN:XS1061333921	1	2y				-500,000.00	CFTC	CFTC	Global	M33	2021-07-04
+Risk_CreditNonQ	SIMM	Credit	ISIN:XS1980681200	2	1y				-220,000.00	CFTC	CFTC	Global	M34	2021-07-04
+Risk_CreditNonQ	SIMM	Credit	ISIN:XS1980681200	2	10y				200,000.00	CFTC	CFTC	Global	M35	2021-07-04
+Risk_CreditNonQ	SIMM	Credit	ISIN:DE000HVB34J9	2	2y				800,000.00	CFTC	CFTC	Global	M36	2021-07-04
+Risk_CreditNonQ	SIMM	Credit	ISIN:FR0003507418	Residual	5y				300,000.00	CFTC	CFTC	Global	M37	2021-07-04
+Risk_CreditNonQ	SIMM	Credit	ISIN:XS2023221601	Residual	3y				-270,000.00	CFTC	CFTC	Global	M38	2021-07-04
+Risk_Equity	SIMM	Equity	ISIN:XS1980681200	2					200,000.00	CFTC	CFTC	Global	M39	2021-07-04
+Risk_Equity	SIMM	Equity	ISIN:DE000HVB34J9	2					500,000.00	CFTC	CFTC	Global	M40	2021-07-04
+Risk_Equity	SIMM	Equity	ISIN:DE000TK0T291	5					-1,000,000.00	CFTC	CFTC	Global	M41	2021-07-04
+Risk_Equity	SIMM	Equity	ISIN:DE000FF2AKA7	5					3,300,000.00	CFTC	CFTC	Global	M42	2021-07-04
+Risk_Equity	SIMM	Equity	ISIN:XS1896686544	5					500,000.00	CFTC	CFTC	Global	M43	2021-07-04
+Risk_Equity	SIMM	Equity	ISIN:BE5631439402	9					100,000.00	CFTC	CFTC	Global	M44	2021-07-04
+Risk_Equity	SIMM	Equity	ISIN:XS1006556794	10					50,000.00	CFTC	CFTC	Global	M45	2021-07-04
+Risk_Equity	SIMM	Equity	ISIN:GB02BALKJB79	10					-150,000.00	CFTC	CFTC	Global	M46	2021-07-04
+Risk_Equity	SIMM	Equity	FTSE100	11					600,000.00	CFTC	CFTC	Global	M47	2021-07-04
+Risk_Equity	SIMM	Equity	S&P500	11					-450,000.00	CFTC	CFTC	Global	M48	2021-07-04
+Risk_Equity	SIMM	Equity	ISIN:FR0003504418	Residual					-75,000.00	CFTC	CFTC	Global	M49	2021-07-04
+Risk_Equity	SIMM	Equity	ISIN:XS2023221601	Residual					56,000.00	CFTC	CFTC	Global	M50	2021-07-04
+Risk_FX	SIMM	RatesFx	EUR						10,000,000.00	CFTC	CFTC	Global	M51	2021-07-04
+Risk_FX	SIMM	RatesFx	EUR						-10,000,000.00	CFTC	CFTC	Global	M52	2021-07-04
+Risk_FX	SIMM	RatesFx	NOK						200,000,000.00	CFTC	CFTC	Global	M53	2021-07-04
+Risk_FX	SIMM	RatesFx	MRU						60,000,000.00	CFTC	CFTC	Global	M54	2021-07-04
+Risk_XCcyBasis	SIMM	RatesFx	GBP						-15,000,000.00	CFTC	CFTC	Global	M55	2021-07-04
+Risk_XCcyBasis	SIMM	RatesFx	USD						10,000,000.00	CFTC	CFTC	Global	M56	2021-07-04
+Risk_XCcyBasis	SIMM	RatesFx	USD						10,000,000.00	CFTC	CFTC	Global	M57	2021-07-04
+Risk_Inflation	SIMM	RatesFx	CAD						3,000,000.00	CFTC	CFTC	Global	M58	2021-07-04
+Risk_Inflation	SIMM	RatesFx	GBP						-10,000,000.00	CFTC	CFTC	Global	M59	2021-07-04
+Risk_IRCurve	SIMM	RatesFx	GBP	1	5y	Libor6m			-5,000,000.00	CFTC	CFTC	Global	M60	2021-07-04
+Risk_IRCurve	SIMM	RatesFx	GBP	1	6m	OIS			20,000,000.00	CFTC	CFTC	Global	M61	2021-07-04
+Risk_IRCurve	SIMM	RatesFx	GBP	1	2y	OIS			30,000,000.00	CFTC	CFTC	Global	M62	2021-07-04
+Risk_IRCurve	SIMM	RatesFx	JPY	2	10y	Libor3m			9,000,000.00	CFTC	CFTC	Global	M63	2021-07-04
+Risk_IRCurve	SIMM	RatesFx	JPY	2	20y	Libor3m			1,000,000.00	CFTC	CFTC	Global	M64	2021-07-04
+Risk_IRCurve	SIMM	RatesFx	INR	3	2w	OIS			-2,000,000.00	CFTC	CFTC	Global	M65	2021-07-04
+Risk_CommodityVol	SIMM	Commodity	Precious Metals Silver	12	2w				3,500,000.00	CFTC	CFTC	Global	M66	2021-07-04
+Risk_CommodityVol	SIMM	Commodity	Precious Metals Silver	12	5y				-3,200,000.00	CFTC	CFTC	Global	M67	2021-07-04
+Risk_CommodityVol	SIMM	Commodity	Precious Metals Gold	12	6m				1,500,000.00	CFTC	CFTC	Global	M68	2021-07-04
+Risk_CommodityVol	SIMM	Commodity	EU Power Germany	9	1y				1,000,000.00	CFTC	CFTC	Global	M69	2021-07-04
+Risk_CommodityVol	SIMM	Commodity	EU Power Germany	9	2w				4,500,000.00	CFTC	CFTC	Global	M70	2021-07-04
+Risk_CommodityVol	SIMM	Commodity	Crude Oil Americas	2	15y				-1,500,000.00	CFTC	CFTC	Global	M71	2021-07-04
+Risk_CreditVol	SIMM	Credit	EU.HY	Residual	5y				-4,000,000.00	CFTC	CFTC	Global	M72	2021-07-04
+Risk_CreditVol	SIMM	Credit	EU.IG	Residual	1y				1,500,000.00	CFTC	CFTC	Global	M73	2021-07-04
+Risk_CreditVol	SIMM	Credit	EU.IG	2	2y				3,000,000.00	CFTC	CFTC	Global	M74	2021-07-04
+Risk_CreditVol	SIMM	Credit	EU.IG	2	2y				-2,000,000.00	CFTC	CFTC	Global	M75	2021-07-04
+Risk_CreditVol	SIMM	Credit	US.HY	7	10y				3,500,000.00	CFTC	CFTC	Global	M76	2021-07-04
+Risk_CreditVolNonQ	SIMM	Credit	EU.HY	Residual	3y				1,200,000.00	CFTC	CFTC	Global	M77	2021-07-04
+Risk_CreditVolNonQ	SIMM	Credit	EU.IG	1	2y				-2,300,000.00	CFTC	CFTC	Global	M78	2021-07-04
+Risk_CreditVolNonQ	SIMM	Credit	EU.IG	Residual	3y				4,000,000.00	CFTC	CFTC	Global	M79	2021-07-04
+Risk_CreditVolNonQ	SIMM	Credit	EU.IG	Residual	1y				-3,500,000.00	CFTC	CFTC	Global	M80	2021-07-04
+Risk_CreditVolNonQ	SIMM	Credit	US.HY	Residual	10y				-2,600,000.00	CFTC	CFTC	Global	M81	2021-07-04
+Risk_EquityVol	SIMM	Equity	ISIN:US3949181045	1	5y				2,000,000.00	CFTC	CFTC	Global	M82	2021-07-04
+Risk_EquityVol	SIMM	Equity	ISIN:US3949181045	1	2y				-1,800,000.00	CFTC	CFTC	Global	M83	2021-07-04
+Risk_EquityVol	SIMM	Equity	ISIN:US3949181045	1	2w				6,000,000.00	CFTC	CFTC	Global	M84	2021-07-04
+Risk_EquityVol	SIMM	Equity	ISIN:CH0419041295	4	3y				5,000,000.00	CFTC	CFTC	Global	M85	2021-07-04
+Risk_EquityVol	SIMM	Equity	ISIN:DE000HVB34J9	4	10y				-4,500,000.00	CFTC	CFTC	Global	M86	2021-07-04
+Risk_EquityVol	SIMM	Equity	ISIN:RU000A100H37	7	20y				-2,700,000.00	CFTC	CFTC	Global	M87	2021-07-04
+Risk_EquityVol	SIMM	Equity	VIX	12	15y				-1,500,000.00	CFTC	CFTC	Global	M88	2021-07-04
+Risk_EquityVol	SIMM	Equity	ISIN:FR0003504418	Residual	6m				3,000,000.00	CFTC	CFTC	Global	M89	2021-07-04
+Risk_EquityVol	SIMM	Equity	ISIN:FR0003504418	Residual	1m				-3,200,000.00	CFTC	CFTC	Global	M90	2021-07-04
+Risk_EquityVol	SIMM	Equity	ISIN:XS2023221601	Residual	3m				4,400,000.00	CFTC	CFTC	Global	M91	2021-07-04
+Risk_FXVol	SIMM	RatesFx	USDEUR		6m				2,500,000.00	CFTC	CFTC	Global	M92	2021-07-04
+Risk_FXVol	SIMM	RatesFx	EURUSD		3y				8,500,000.00	CFTC	CFTC	Global	M93	2021-07-04
+Risk_FXVol	SIMM	RatesFx	USDEUR		20y				-10,000,000.00	CFTC	CFTC	Global	M94	2021-07-04
+Risk_FXVol	SIMM	RatesFx	BRLCNY		2y				6,500,000.00	CFTC	CFTC	Global	M95	2021-07-04
+Risk_FXVol	SIMM	RatesFx	JPYSGD		6m				-2,500,000.00	CFTC	CFTC	Global	M96	2021-07-04
+Risk_InflationVol	SIMM	RatesFx	EUR		5y				15,000,000.00	CFTC	CFTC	Global	M97	2021-07-04
+Risk_InflationVol	SIMM	RatesFx	EUR		15y				-50,000,000.00	CFTC	CFTC	Global	M98	2021-07-04
+Risk_InflationVol	SIMM	RatesFx	USD		20y				100,000,000.00	CFTC	CFTC	Global	M99	2021-07-04
+Risk_IRVol	SIMM	RatesFx	USD		3m				20,000,000.00	CFTC	CFTC	Global	M100	2021-07-04
+Risk_IRVol	SIMM	RatesFx	USD		1y				-30,000,000.00	CFTC	CFTC	Global	M101	2021-07-04
+Risk_IRVol	SIMM	RatesFx	AUD		2w				-13,000,000.00	CFTC	CFTC	Global	M102	2021-07-04
+Risk_IRVol	SIMM	RatesFx	AUD		2y				-2,500,000.00	CFTC	CFTC	Global	M103	2021-07-04
+Param_AddOnFixedAmount	SIMM								1,650,000.00	CFTC	CFTC			
+Param_AddOnFixedAmount	SIMM								2,000,000.00	CFTC	CFTC			
+Notional	SIMM		FlexiCallOption						1,000,000.00	CFTC	CFTC	Global	M104	2021-07-04
+Notional	SIMM		FlexiCallOption						-2,000,000.00	CFTC	CFTC	Global	M105	2021-07-04
+Notional	SIMM		FlexiCallOption						1,500,000.00	CFTC	CFTC	Global	M106	2021-07-04
+Notional	SIMM		FlexiPutOption						-800,000.00	CFTC	CFTC	Global	M107	2021-07-04
+Notional	SIMM		FlexiPutOption						-2,200,000.00	CFTC	CFTC	Global	M108	2021-07-04
+Param_AddOnNotionalFactor	SIMM		FlexiCallOption				6.105			CFTC	CFTC			
+Param_AddOnNotionalFactor	SIMM		FlexiPutOption				2.055			CFTC	CFTC			
+Param_ProductClassMultiplier	SIMM		Commodity				1.075			CFTC	CFTC			
+Param_ProductClassMultiplier	SIMM		Credit				1.11			CFTC	CFTC			
+Param_ProductClassMultiplier	SIMM		Equity				1.015			CFTC	CFTC			
+Param_ProductClassMultiplier	SIMM		RatesFx				1.205			CFTC	CFTC			
+Notional	Schedule	Commodity					1,850,000.00	CAD		CFTC	CFTC	Global	S1	2020-01-04
+Notional	Schedule	Credit							2,300,000.00	CFTC	CFTC	Global	S2	2020-01-04
+Notional	Schedule	Credit							-900,000.00	CFTC	CFTC	Global	S3	2027-07-04
+Notional	Schedule	Fx							-5,200,000.00	CFTC	CFTC	Global	S4	2020-01-04
+Notional	Schedule	Equity							1,200,000.00	CFTC	CFTC	Global	S5	2023-07-04
+Notional	Schedule	Rates							3,700,000.00	CFTC	CFTC	Global	S6	2020-01-04
+Notional	Schedule	Rates							-2,000,000.00	CFTC	CFTC	Global	S7	2023-07-04
+Notional	Schedule	Rates					-1,750,000.00	GBP		CFTC	CFTC	Global	S8	2027-07-04
+Notional	Schedule	Rates					1,620,000.00	EUR		CFTC	CFTC	Global	S8	2027-07-04
+Notional	Schedule	Other							-120,000.00	CFTC	CFTC	Global	S9	2020-01-04
+Notional	Schedule	Other							2,140,000.00	CFTC	CFTC	Global	S9	2020-01-04
+Notional	Schedule	Other							4,350,000.00	CFTC	CFTC	Global	S10	2023-07-04
+Notional	Schedule	Other							4,100,000.00	CFTC	CFTC	Global	S11	2027-07-04
+Notional	Schedule	Other							-5,120,000.00	CFTC	CFTC	Global	S11	2027-07-04
+PV	Schedule	Commodity							490,000.00	CFTC	CFTC	Global	S1	2020-01-04
+PV	Schedule	Credit							-60,000.00	CFTC	CFTC	Global	S2	2020-01-04
+PV	Schedule	Credit							610,000.00	CFTC	CFTC	Global	S3	2027-07-04
+PV	Schedule	Fx							320,000.00	CFTC	CFTC	Global	S4	2020-01-04
+PV	Schedule	Equity							-230,000.00	CFTC	CFTC	Global	S5	2023-07-04
+PV	Schedule	Rates							1,850,000.00	CFTC	CFTC	Global	S6	2020-01-04
+PV	Schedule	Rates							-450,000.00	CFTC	CFTC	Global	S7	2023-07-04
+PV	Schedule	Rates					-170,000.00	GBP		CFTC	CFTC	Global	S8	2027-07-04
+PV	Schedule	Rates					260,000.00	EUR		CFTC	CFTC	Global	S8	2027-07-04
+PV	Schedule	Other							-60,000.00	CFTC	CFTC	Global	S9	2020-01-04
+PV	Schedule	Other							-240,000.00	CFTC	CFTC	Global	S11	2027-07-04
