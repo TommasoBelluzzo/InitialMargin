@@ -54,17 +54,17 @@ namespace InitialMargin
             return clone;
         }
 
-        public static Amount Calculate(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataEntity> entities)
+        public static Amount Calculate(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataEntity> entities)
         {
             return CalculateDetailed(regulationRole, valuationDate, calculationCurrency, ratesProvider, entities).Value;
         }
 
-        public static Amount Calculate(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataValue> values)
+        public static Amount Calculate(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataValue> values)
         {
             return CalculateDetailed(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, (new List<DataParameter>(0))).Value;
         }
 
-        public static Amount Calculate(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataValue> values, List<DataParameter> parameters)
+        public static Amount Calculate(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataValue> values, ICollection<DataParameter> parameters)
         {
             return CalculateDetailed(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, parameters).Value;
         }
@@ -74,17 +74,17 @@ namespace InitialMargin
             return CalculateDetailed(regulationRole, valuationDate, calculationCurrency, ratesProvider, crifPath).Value;
         }
 
-        public static Amount CalculateWorstOf(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataEntity> entities)
+        public static Amount CalculateWorstOf(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataEntity> entities)
         {
             return CalculateDetailedWorstOf(regulationRole, valuationDate, calculationCurrency, ratesProvider, entities).Value;
         }
 
-        public static Amount CalculateWorstOf(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataValue> values)
+        public static Amount CalculateWorstOf(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataValue> values)
         {
             return CalculateDetailedWorstOf(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, (new List<DataParameter>(0))).Value;
         }
 
-        public static Amount CalculateWorstOf(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataValue> values, List<DataParameter> parameters)
+        public static Amount CalculateWorstOf(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataValue> values, ICollection<DataParameter> parameters)
         {
             return CalculateDetailedWorstOf(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, parameters).Value;
         }
@@ -94,7 +94,7 @@ namespace InitialMargin
             return CalculateDetailedWorstOf(regulationRole, valuationDate, calculationCurrency, ratesProvider, crifPath).Value;
         }
 
-        public static Dictionary<Regulation,Amount> CalculateByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataEntity> entities)
+        public static Dictionary<Regulation,Amount> CalculateByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataEntity> entities)
         {
             if (entities == null)
                 throw new ArgumentNullException(nameof(entities));
@@ -105,12 +105,12 @@ namespace InitialMargin
             return CalculateByRole(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, parameters);
         }
 
-        public static Dictionary<Regulation,Amount> CalculateByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataValue> values)
+        public static Dictionary<Regulation,Amount> CalculateByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataValue> values)
         {
             return CalculateByRole(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, (new List<DataParameter>(0)));
         }
 
-        public static Dictionary<Regulation,Amount> CalculateByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataValue> values, List<DataParameter> parameters)
+        public static Dictionary<Regulation,Amount> CalculateByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataValue> values, ICollection<DataParameter> parameters)
         {
             Dictionary<Regulation,MarginTotal> result = CalculateDetailedByRole(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, parameters);
             return result.ToDictionary(x => x.Key, x => x.Value.Value);
@@ -118,30 +118,30 @@ namespace InitialMargin
 
         public static Dictionary<Regulation,Amount> CalculateByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, String crifPath)
         {
-            List<DataEntity> entities = CrifManager.Read(crifPath);
+            ICollection<DataEntity> entities = CrifManager.Read(crifPath);
             List<DataValue> values = entities.OfType<DataValue>().ToList();
             List<DataParameter> parameters = entities.OfType<DataParameter>().ToList();
 
             return CalculateByRole(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, parameters);
         }
 
-        public static Dictionary<Regulation,MarginTotal> CalculateDetailedByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataEntity> entities)
+        public static Dictionary<Regulation,MarginTotal> CalculateDetailedByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataEntity> entities)
         {
             if (entities == null)
                 throw new ArgumentNullException(nameof(entities));
 
-            List<DataValue> values = entities.OfType<DataValue>().ToList();
-            List<DataParameter> parameters = entities.OfType<DataParameter>().ToList();
+            ICollection<DataValue> values = entities.OfType<DataValue>().ToList();
+            ICollection<DataParameter> parameters = entities.OfType<DataParameter>().ToList();
 
             return CalculateDetailedByRole(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, parameters);
         }
 
-        public static Dictionary<Regulation,MarginTotal> CalculateDetailedByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataValue> values)
+        public static Dictionary<Regulation,MarginTotal> CalculateDetailedByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataValue> values)
         {
             return CalculateDetailedByRole(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, (new List<DataParameter>(0)));
         }
 
-        public static Dictionary<Regulation,MarginTotal> CalculateDetailedByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataValue> values, List<DataParameter> parameters)
+        public static Dictionary<Regulation,MarginTotal> CalculateDetailedByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataValue> values, ICollection<DataParameter> parameters)
         {
             if (!Enum.IsDefined(typeof(RegulationRole), regulationRole))
                 throw new InvalidEnumArgumentException("Invalid regulation role specified.");
@@ -196,14 +196,14 @@ namespace InitialMargin
 
         public static Dictionary<Regulation,MarginTotal> CalculateDetailedByRole(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, String crifPath)
         {
-            List<DataEntity> entities = CrifManager.Read(crifPath);
+            ICollection<DataEntity> entities = CrifManager.Read(crifPath);
             List<DataValue> values = entities.OfType<DataValue>().ToList();
             List<DataParameter> parameters = entities.OfType<DataParameter>().ToList();
 
             return CalculateDetailedByRole(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, parameters);
         }
 
-        public static MarginTotal CalculateDetailed(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataEntity> entities)
+        public static MarginTotal CalculateDetailed(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataEntity> entities)
         {
             if (entities == null)
                 throw new ArgumentNullException(nameof(entities));
@@ -214,12 +214,12 @@ namespace InitialMargin
             return CalculateDetailed(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, parameters);
         }
 
-        public static MarginTotal CalculateDetailed(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataValue> values)
+        public static MarginTotal CalculateDetailed(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataValue> values)
         {
             return CalculateDetailed(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, (new List<DataParameter>(0)));
         }
 
-        public static MarginTotal CalculateDetailed(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataValue> values, List<DataParameter> parameters)
+        public static MarginTotal CalculateDetailed(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataValue> values, ICollection<DataParameter> parameters)
         {
             if (calculationCurrency == null)
                 throw new ArgumentNullException(nameof(calculationCurrency));
@@ -261,14 +261,14 @@ namespace InitialMargin
 
         public static MarginTotal CalculateDetailed(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, String crifPath)
         {
-            List<DataEntity> entities = CrifManager.Read(crifPath);
+            ICollection<DataEntity> entities = CrifManager.Read(crifPath);
             List<DataValue> values = entities.OfType<DataValue>().ToList();
             List<DataParameter> parameters = entities.OfType<DataParameter>().ToList();
 
             return CalculateDetailed(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, parameters);
         }
         
-        public static MarginTotal CalculateDetailedWorstOf(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataEntity> entities)
+        public static MarginTotal CalculateDetailedWorstOf(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataEntity> entities)
         {
             if (entities == null)
                 throw new ArgumentNullException(nameof(entities));
@@ -279,12 +279,12 @@ namespace InitialMargin
             return CalculateDetailedWorstOf(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, parameters);
         }
 
-        public static MarginTotal CalculateDetailedWorstOf(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataValue> values)
+        public static MarginTotal CalculateDetailedWorstOf(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataValue> values)
         {
             return CalculateDetailedWorstOf(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, (new List<DataParameter>(0)));
         }
 
-        public static MarginTotal CalculateDetailedWorstOf(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, List<DataValue> values, List<DataParameter> parameters)
+        public static MarginTotal CalculateDetailedWorstOf(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, ICollection<DataValue> values, ICollection<DataParameter> parameters)
         {
             Dictionary<Regulation,MarginTotal> result = CalculateDetailedByRole(regulationRole, valuationDate, calculationCurrency, ratesProvider, values, parameters);
             return result.Select(x => x.Value).OrderByDescending(x => Amount.Abs(x.Value)).ThenBy(x => x.Regulation).FirstOrDefault();
@@ -292,7 +292,7 @@ namespace InitialMargin
 
         public static MarginTotal CalculateDetailedWorstOf(RegulationRole regulationRole, DateTime valuationDate, Currency calculationCurrency, FxRatesProvider ratesProvider, String crifPath)
         {
-            List<DataEntity> entities = CrifManager.Read(crifPath);
+            ICollection<DataEntity> entities = CrifManager.Read(crifPath);
             List<DataValue> values = entities.OfType<DataValue>().ToList();
             List<DataParameter> parameters = entities.OfType<DataParameter>().ToList();
 

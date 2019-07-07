@@ -602,7 +602,7 @@ namespace InitialMargin.IO
             return TradeInfo.Of(o.PortfolioId, o.TradeId, endDate);
         }
 
-        public static List<DataEntity> Read(String filePath)
+        public static ICollection<DataEntity> Read(String filePath)
         {
             List<String[]> fieldsMatrix = CsvParser.Parse(filePath, Encoding.UTF8, '\t', false);
 

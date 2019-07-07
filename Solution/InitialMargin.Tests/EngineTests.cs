@@ -1,6 +1,7 @@
 ﻿#region Using Directives
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Xunit;
 using InitialMargin.Core;
@@ -27,7 +28,7 @@ namespace InitialMargin.Tests
         public void TestConsistency()
         {
             FxRatesProvider ratesProvider = m_TestsFixture.RatesProvider;
-            List<DataEntity> dataEntities = new List<DataEntity>(m_TestsFixture.DataEntities);
+            ReadOnlyCollection<DataEntity> dataEntities = m_TestsFixture.DataEntities;
 
             Amount amount = Engine.Calculate(RegulationRole.Secured, DateTime.Today, Currency.Usd, ratesProvider, dataEntities);
 
@@ -46,7 +47,7 @@ namespace InitialMargin.Tests
         public void TestResult(RegulationRole regulationRole, Double result)
         {
             FxRatesProvider ratesProvider = m_TestsFixture.RatesProvider;
-            List<DataEntity> dataEntities = new List<DataEntity>(m_TestsFixture.DataEntities);
+            ReadOnlyCollection<DataEntity> dataEntities = m_TestsFixture.DataEntities;
 
             Decimal expected = Convert.ToDecimal(result);
             Decimal actual = Math.Round(Engine.Calculate(regulationRole, DateTime.Today, Currency.Usd, ratesProvider, dataEntities).Value, 0, MidpointRounding.AwayFromZero);

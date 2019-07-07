@@ -1,6 +1,7 @@
 ﻿#region Using Directives
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -86,7 +87,7 @@ namespace InitialMargin.Tests
         public void TestOutputCsv(RegulationRole regulationRole, String csvFile)
         {
             FxRatesProvider ratesProvider = m_TestsFixture.RatesProvider;
-            List<DataEntity> dataEntities = new List<DataEntity>(m_TestsFixture.DataEntities);
+            ReadOnlyCollection<DataEntity> dataEntities = m_TestsFixture.DataEntities;
             OutputWriterCsv writer = m_TestsFixture.WriterCsv;
 
             String csvExpectedFile = Utilities.GetStaticFilePath(csvFile);
@@ -137,7 +138,7 @@ namespace InitialMargin.Tests
         public void TestOutputTree(RegulationRole regulationRole, String treeFile)
         {
             FxRatesProvider ratesProvider = m_TestsFixture.RatesProvider;
-            List<DataEntity> dataEntities = new List<DataEntity>(m_TestsFixture.DataEntities);
+            ReadOnlyCollection<DataEntity> dataEntities = m_TestsFixture.DataEntities;
             OutputWriterTree writer = m_TestsFixture.WriterTree;
 
             String treeExpectedFile = Utilities.GetStaticFilePath(treeFile);
