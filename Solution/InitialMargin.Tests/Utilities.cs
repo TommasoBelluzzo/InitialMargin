@@ -17,6 +17,15 @@ namespace InitialMargin.Tests
         #endregion
 
         #region Methods
+        private static String GetDataPath()
+        {
+            Uri codeBaseUrl = new Uri(Assembly.GetExecutingAssembly().CodeBase);
+            String codeBasePath = Uri.UnescapeDataString(codeBaseUrl.AbsolutePath);
+            String dataPath = Path.Combine(Path.GetDirectoryName(codeBasePath), "Data");
+
+            return dataPath;
+        }
+
         public static Decimal Round(Decimal value, Int32 digits)
         {
             return Math.Round(value, digits, MidpointRounding.AwayFromZero);
@@ -44,15 +53,6 @@ namespace InitialMargin.Tests
 
                 return builder.ToString();
             }
-        }
-
-        public static String GetDataPath()
-        {
-            Uri codeBaseUrl = new Uri(Assembly.GetExecutingAssembly().CodeBase);
-            String codeBasePath = Uri.UnescapeDataString(codeBaseUrl.AbsolutePath);
-            String dataPath = Path.Combine(Path.GetDirectoryName(codeBasePath), "Data");
-
-            return dataPath;
         }
 
         public static String GetRandomFilePath(String fileExtension)
