@@ -10,6 +10,7 @@ using InitialMargin.Core;
 
 namespace InitialMargin.IO
 {
+    /// <summary>Represents a data manager in charge of writing calculation results into CSV files, using a tabular structure. This class cannot be derived.</summary>
     public sealed class OutputWriterCsv : IOutputWriter
     {
         #region Members
@@ -32,13 +33,17 @@ namespace InitialMargin.IO
         #endregion
 
         #region Properties
+        /// <summary>Gets the encoding used by the output writer.</summary>
+        /// <value>An <see cref="T:System.Text.Encoding"/> object.</value>
         public Encoding Encoding => m_Encoding;
 
+        /// <summary>Gets the culture-specific format used by the output writer.</summary>
+        /// <value>An <see cref="T:System.IFormatProvider"/> object.</value>
         public IFormatProvider FormatProvider => m_FormatProvider;
         #endregion
 
         #region Constructors
-        public OutputWriterCsv(Encoding encoding, IFormatProvider formatProvider)
+        private OutputWriterCsv(Encoding encoding, IFormatProvider formatProvider)
         {
             if (encoding == null)
                 throw new ArgumentNullException(nameof(encoding));
@@ -49,8 +54,6 @@ namespace InitialMargin.IO
             m_Encoding = encoding;
             m_FormatProvider = formatProvider;
         }
-
-        public OutputWriterCsv() : this(Encoding.UTF8, CultureInfo.CurrentCulture) { }
         #endregion
 
         #region Methods
@@ -86,11 +89,20 @@ namespace InitialMargin.IO
                 WriteCsvRecursive(child, fieldsMatrix);
         }
 
+        /// <summary>Writes the specified calculation result into the specified CSV file, using the default delimiter (see <see cref="P:InitialMargin.IO.CsvUtilities.DefaultDelimiter"/>).</summary>
+        /// <param name="filePath">The <see cref="T:System.String"/> representing the file to write to.</param>
+        /// <param name="margin">The <see cref="T:InitialMargin.Core.MarginTotal"/> object to write.</param>
         public void Write(String filePath, MarginTotal margin)
         {
             Write(filePath, margin, CsvUtilities.DefaultDelimiter);
         }
 
+        /// <summary>Writes the specified calculation result into the specified CSV file, using the specified delimiter.</summary>
+        /// <param name="filePath">The <see cref="T:System.String"/> representing the file to write to.</param>
+        /// <param name="margin">The <see cref="T:InitialMargin.Core.MarginTotal"/> object to write.</param>
+        /// <param name="delimiter">The <see cref="T:System.Char"/> representing the delimiter.</param>
+        /// <exception cref="T:System.ArgumentException">Thrown when <paramref name="filePath">filePath</paramref> is invalid or does not refer to a CSV file, or when <paramref name="delimiter">delimiter</paramref> is invalid (see <see cref="M:InitialMargin.IO.CsvUtilities.IsValidDelimiter(System.Char)"/>).</exception>
+        /// <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="margin">margin</paramref> is <c>null</c>.</exception>
         public void Write(String filePath, MarginTotal margin, Char delimiter)
         {
             if (String.IsNullOrWhiteSpace(filePath))
@@ -113,8 +125,32 @@ namespace InitialMargin.IO
             File.WriteAllText(filePath, result, m_Encoding);
         }
         #endregion
+
+        /// <summary>Initializes and returns a new instance using the specified parameters.</summary>
+        /// <param name="encoding">The <see cref="T:System.Text.Encoding"/> representing the character encoding in which output files are written.</param>
+        /// <param name="formatProvider">The <see cref="T:System.IFormatProvider"/> supplying the culture-specific format.</param>
+        /// <returns>A new instance of <see cref="T:InitialMargin.IO.OutputWriterCsv"/> initialized with the specified parameters.</returns>
+        /// <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="encoding">encoding</paramref> is <c>null</c> or when <paramref name="formatProvider">formatProvider</paramref> is <c>null</c>.</exception>
+        public static OutputWriterCsv Of(Encoding encoding, IFormatProvider formatProvider)
+        {
+            if (encoding == null)
+                throw new ArgumentNullException(nameof(encoding));
+
+            if (formatProvider == null)
+                throw new ArgumentNullException(nameof(formatProvider));
+
+            return (new OutputWriterCsv(encoding, formatProvider));
+        }
+
+        /// <summary>Initializes and returns a new instance using <see cref="P:System.Text.Encoding.UTF8"/> as character encoding and <see cref="P:System.Globalization.CultureInfo.CurrentCulture"/> as culture-specific format.</summary>
+        /// <returns>A new instance of <see cref="T:InitialMargin.IO.OutputWriterCsv"/> initialized with the default parameters.</returns>
+        public static OutputWriterCsv OfDefault()
+        {
+            return (new OutputWriterCsv(Encoding.UTF8, CultureInfo.CurrentCulture));
+        }
     }
 
+    /// <summary>Represents a data manager in charge of writing calculation results into plain-text files, using a tree structure. This class cannot be derived.</summary>
     public sealed class OutputWriterTree : IOutputWriter
     {
         #region Constants
@@ -137,25 +173,21 @@ namespace InitialMargin.IO
         #endregion
 
         #region Properties
+        /// <summary>Gets the encoding used by the output writer.</summary>
+        /// <value>An <see cref="T:System.Text.Encoding"/> object.</value>
         public Encoding Encoding => m_Encoding;
 
+        /// <summary>Gets the culture-specific format used by the output writer.</summary>
+        /// <value>An <see cref="T:System.IFormatProvider"/> object.</value>
         public IFormatProvider FormatProvider => m_FormatProvider;
         #endregion
 
         #region Constructors
-        public OutputWriterTree(Encoding encoding, IFormatProvider formatProvider)
+        private OutputWriterTree(Encoding encoding, IFormatProvider formatProvider)
         {
-            if (encoding == null)
-                throw new ArgumentNullException(nameof(encoding));
-
-            if (formatProvider == null)
-                throw new ArgumentNullException(nameof(formatProvider));
-
             m_Encoding = encoding;
             m_FormatProvider = formatProvider;
         }
-
-        public OutputWriterTree() : this(Encoding.UTF8, CultureInfo.CurrentCulture) { }
         #endregion
 
         #region Methods
@@ -200,6 +232,11 @@ namespace InitialMargin.IO
             WriteTreeNode(margin, builder, indent);
         }
 
+        /// <summary>Writes the specified calculation result into the specified plain-text file.</summary>
+        /// <param name="filePath">The <see cref="T:System.String"/> representing the file to write to.</param>
+        /// <param name="margin">The <see cref="T:InitialMargin.Core.MarginTotal"/> object to write.</param>
+        /// <exception cref="T:System.ArgumentException">Thrown when <paramref name="filePath">filePath</paramref> is invalid or does not refer to a plain-text file.</exception>
+        /// <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="margin">margin</paramref> is <c>null</c>.</exception>
         public void Write(String filePath, MarginTotal margin)
         {
             if (String.IsNullOrWhiteSpace(filePath))
@@ -225,6 +262,31 @@ namespace InitialMargin.IO
             String result = builder.ToString().Trim();
 
             File.WriteAllText(filePath, result, m_Encoding);
+        }
+        #endregion
+
+        #region Methods (Static)
+        /// <summary>Initializes and returns a new instance using the specified parameters.</summary>
+        /// <param name="encoding">The <see cref="T:System.Text.Encoding"/> representing the character encoding in which output files are written.</param>
+        /// <param name="formatProvider">The <see cref="T:System.IFormatProvider"/> supplying the culture-specific format.</param>
+        /// <returns>A new instance of <see cref="T:InitialMargin.IO.OutputWriterTree"/> initialized with the specified parameters.</returns>
+        /// <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="encoding">encoding</paramref> is <c>null</c> or when <paramref name="formatProvider">formatProvider</paramref> is <c>null</c>.</exception>
+        public static OutputWriterTree Of(Encoding encoding, IFormatProvider formatProvider)
+        {
+            if (encoding == null)
+                throw new ArgumentNullException(nameof(encoding));
+
+            if (formatProvider == null)
+                throw new ArgumentNullException(nameof(formatProvider));
+
+            return (new OutputWriterTree(encoding, formatProvider));
+        }
+
+        /// <summary>Initializes and returns a new instance using <see cref="P:System.Text.Encoding.UTF8"/> as character encoding and <see cref="P:System.Globalization.CultureInfo.CurrentCulture"/> as culture-specific format.</summary>
+        /// <returns>A new instance of <see cref="T:InitialMargin.IO.OutputWriterTree"/> initialized with the default parameters.</returns>
+        public static OutputWriterTree OfDefault()
+        {
+            return (new OutputWriterTree(Encoding.UTF8, CultureInfo.CurrentCulture));
         }
         #endregion
     }

@@ -23,7 +23,7 @@ namespace InitialMargin.Model
         #region Methods
         private static Amount CalculateCorrelatedSumRisks(Currency calculationCurrency, List<MarginRisk> riskMargins)
         {
-            Amount sum = Amount.Zero(calculationCurrency);
+            Amount sum = Amount.OfZero(calculationCurrency);
 
             foreach (MarginRisk marginRisk1 in riskMargins)
             {
@@ -392,7 +392,7 @@ namespace InitialMargin.Model
             #region Methods (Static)
             private static Amount CalculateCorrelatedSumWeights(Currency calculationCurrency, List<MarginWeighting> weightingMargins)
             {
-                Amount sum = Amount.Zero(calculationCurrency);
+                Amount sum = Amount.OfZero(calculationCurrency);
 
                 foreach (MarginWeighting marginWeighting1 in weightingMargins)
                 {
@@ -469,7 +469,7 @@ namespace InitialMargin.Model
                     weightingMarginSums[bucketMargin.Bucket] = bucketMarginAmount;
                 }
 
-                Amount sum = Amount.Zero(calculationCurrency);
+                Amount sum = Amount.OfZero(calculationCurrency);
 
                 foreach (IBucket bucket1 in weightingMarginSums.Keys)
                 {
@@ -488,7 +488,7 @@ namespace InitialMargin.Model
 
             private static Amount CalculateCorrelatedSumWeights(Currency calculationCurrency, SensitivityRisk risk, List<MarginWeighting> weightingMargins)
             {
-                Amount sum = Amount.Zero(calculationCurrency);
+                Amount sum = Amount.OfZero(calculationCurrency);
 
                 foreach (MarginWeighting marginWeighting1 in weightingMargins)
                 {
@@ -516,7 +516,7 @@ namespace InitialMargin.Model
                     bucketMargins = bucketMargins.Where(x => !x.Bucket.IsResidual).ToList();
 
                 Amount crossBucketSum = Amount.Sum(bucketMargins.Select(x => Amount.Square(x.Value)), calculationCurrency);
-                Amount crossBucketCorrelation = residuals ? Amount.Zero(calculationCurrency) : CalculateCorrelatedSumBuckets(calculationCurrency, risk, bucketMargins);
+                Amount crossBucketCorrelation = residuals ? Amount.OfZero(calculationCurrency) : CalculateCorrelatedSumBuckets(calculationCurrency, risk, bucketMargins);
 
                 List<IMargin> weightingMargins = bucketMargins.SelectMany(x => x.Children).ToList();
                 Amount cvr = Amount.Sum(weightingMargins.Select(x => x.Value), calculationCurrency);
@@ -605,7 +605,7 @@ namespace InitialMargin.Model
                     weightingMarginSums[bucketMargin.Bucket] = bucketMarginValue;
                 }
 
-                Amount sum = Amount.Zero(calculationCurrency);
+                Amount sum = Amount.OfZero(calculationCurrency);
 
                 foreach (IBucket bucket1 in weightingMarginSums.Keys)
                 {
@@ -633,7 +633,7 @@ namespace InitialMargin.Model
                     weightingMarginSums[bucketMargin.Bucket] = bucketMarginValue;
                 }
 
-                Amount sum = Amount.Zero(calculationCurrency);
+                Amount sum = Amount.OfZero(calculationCurrency);
 
                 foreach (IBucket bucket1 in weightingMarginSums.Keys)
                 {
@@ -658,7 +658,7 @@ namespace InitialMargin.Model
 
             private static Amount CalculateCorrelatedSumWeights(Currency calculationCurrency, SensitivityRisk risk, List<MarginWeighting> weightingMargins, Dictionary<String,Decimal> thresholdFactors)
             {
-                Amount sum = Amount.Zero(calculationCurrency);
+                Amount sum = Amount.OfZero(calculationCurrency);
 
                 foreach (MarginWeighting marginWeighting1 in weightingMargins)
                 {

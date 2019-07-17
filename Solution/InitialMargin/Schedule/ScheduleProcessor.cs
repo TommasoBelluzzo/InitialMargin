@@ -23,41 +23,40 @@ namespace InitialMargin.Schedule
             if (notionals.Count == 0)
                 return (new List<ScheduleObject>(0));
 
-            Dictionary<String,List<DataValue>> dataValues = notionals.Select(x => x.ChangeAmount(m_RatesProvider.Convert(x.Amount, m_CalculationCurrency)))
+            Dictionary<(String,String),List<DataValue>> dataValues = notionals.Select(x => x.ChangeAmount(m_RatesProvider.Convert(x.Amount, m_CalculationCurrency)))
                 .Concat(presentValues.Select(x => x.ChangeAmount(m_RatesProvider.Convert(x.Amount, m_CalculationCurrency))))
-                .GroupBy(x => String.Concat(x.PortfolioId, "/", x.TradeId))
+                .GroupBy(x => (x.PortfolioId,x.TradeId))
                 .ToDictionary(x => x.Key, x => x.ToList());
 
             List<ScheduleObject> scheduleObjects = new List<ScheduleObject>(dataValues.Keys.Count);
 
-            foreach (String key in dataValues.Keys.OrderBy(x => x))
+            foreach ((String,String) key in dataValues.Keys.OrderBy(x => x))
             {
-                String[] keyTokens = key.Split('/');
-                String portfolioId = keyTokens[0];
-                String tradeId = keyTokens[1];
+                String portfolioId = key.Item1;
+                String tradeId = key.Item2;
 
                 List<DataValue> dataValuesByKey = dataValues[key];
                 List<Notional> notionalsByKey = dataValuesByKey.OfType<Notional>().ToList();
                 List<PresentValue> presentValuesByKey = dataValuesByKey.OfType<PresentValue>().ToList();
 
                 if (notionalsByKey.Count == 0)
-                    throw new InvalidDataException($"The trade {tradeId} ({portfolioId}) defines no notionals.");
+                    throw new InvalidDataException($"The trade \"{tradeId}\" (portfolio \"{portfolioId}\") defines no notionals.");
 
                 if ((presentValuesByKey.Count != 0) && (presentValuesByKey.Count != 1) && (presentValuesByKey.Count != notionalsByKey.Count))
-                    throw new InvalidDataException($"The trade {tradeId} ({portfolioId}) defines an invalid number of present values.");
+                    throw new InvalidDataException($"The trade \"{tradeId}\" (portfolio \"{portfolioId}\") defines an invalid number of present values.");
 
                 List<Product> productsByKey = notionalsByKey.Select(x => x.Product)
                     .Union(presentValuesByKey.Select(x => x.Product))
                     .ToList();
 
                 if (productsByKey.Count != 1)
-                    throw new InvalidDataException($"The trade {tradeId} ({portfolioId}) defines notionals and present values having different products.");
+                    throw new InvalidDataException($"The trade \"{tradeId}\" (portfolio \"{portfolioId}\") defines notionals and present values having different products.");
 
                 List<DateTime> endDatesByKey = dataValuesByKey.Select(x => x.EndDate)
                     .Distinct().ToList();
 
                 if (endDatesByKey.Count != 1)
-                    throw new InvalidDataException($"The trade {tradeId} ({portfolioId}) defines notionals and present values having different end dates.");
+                    throw new InvalidDataException($"The trade \"{tradeId}\" (portfolio \"{portfolioId}\") defines notionals and present values having different end dates.");
 
                 scheduleObjects.Add(new ScheduleObject
                 {

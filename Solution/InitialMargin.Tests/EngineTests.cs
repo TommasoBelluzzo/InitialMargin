@@ -30,12 +30,14 @@ namespace InitialMargin.Tests
             FxRatesProvider ratesProvider = m_TestsFixture.RatesProvider;
             ReadOnlyCollection<DataEntity> dataEntities = m_TestsFixture.DataEntities;
 
-            Amount amount = Engine.Calculate(RegulationRole.Secured, DateTime.Today, Currency.Usd, ratesProvider, dataEntities);
+            Engine engine = Engine.Of(Currency.Usd, ratesProvider);
+
+            Amount amount = engine.Calculate(RegulationRole.Secured, dataEntities);
 
             List<Amount> amounts = new List<Amount>(3)
             {
-                Engine.CalculateByRole(RegulationRole.Secured, DateTime.Today, Currency.Usd, ratesProvider, dataEntities).Single().Value,
-                Engine.CalculateWorstOf(RegulationRole.Secured, DateTime.Today, Currency.Usd, ratesProvider, dataEntities)
+                engine.CalculateByRole(RegulationRole.Secured, dataEntities).Single().Value,
+                engine.CalculateWorstOf(RegulationRole.Secured, dataEntities)
             };
 
             Assert.True(amounts.TrueForAll(x => x.Equals(amount)));
@@ -49,8 +51,10 @@ namespace InitialMargin.Tests
             FxRatesProvider ratesProvider = m_TestsFixture.RatesProvider;
             ReadOnlyCollection<DataEntity> dataEntities = m_TestsFixture.DataEntities;
 
+            Engine engine = Engine.Of(Currency.Usd, ratesProvider);
+
             Decimal expected = Convert.ToDecimal(result);
-            Decimal actual = Math.Round(Engine.Calculate(regulationRole, DateTime.Today, Currency.Usd, ratesProvider, dataEntities).Value, 0, MidpointRounding.AwayFromZero);
+            Decimal actual = Math.Round(engine.Calculate(regulationRole, dataEntities).Value, 0, MidpointRounding.AwayFromZero);
 
             Assert.Equal(expected, actual);
         }

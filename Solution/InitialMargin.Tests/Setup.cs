@@ -38,9 +38,9 @@ namespace InitialMargin.Tests
         #region Constructors
         public TestsFixture()
         {
-            m_RatesManager = new FxRatesManager(Encoding.UTF8, CultureInfo.InvariantCulture);
-            m_WriterCsv = new OutputWriterCsv(Encoding.UTF8, CultureInfo.InvariantCulture);
-            m_WriterTree = new OutputWriterTree(Encoding.UTF8, CultureInfo.InvariantCulture);
+            m_RatesManager = FxRatesManager.Of(Encoding.UTF8, CultureInfo.InvariantCulture);
+            m_WriterCsv = OutputWriterCsv.Of(Encoding.UTF8, CultureInfo.InvariantCulture);
+            m_WriterTree = OutputWriterTree.Of(Encoding.UTF8, CultureInfo.InvariantCulture);
             m_DataEntities = CreateDataEntities();
         }
         #endregion

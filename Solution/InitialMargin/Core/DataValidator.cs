@@ -16,6 +16,7 @@ namespace InitialMargin.Core
         private static readonly Regex s_RegexRegulationsBlank = new Regex(@"^(?: *|\[ ?\])$", RegexOptions.Compiled);
         private static readonly Regex s_RegexRegulationsFilled = new Regex(@"^[A-Z]{3,5}(?:,[A-Z]{3,5})*$", RegexOptions.Compiled);
         private static readonly Regex s_RegexTenor = new Regex(@"^([1-9][0-9]?)(w|m|y)$", RegexOptions.Compiled);
+        private static readonly Regex s_RegexTradeReference = new Regex(@"^(?!.*?[-_]{2,}|.*?[-_]$)[A-Z0-9][A-Z0-9-_]*$", (RegexOptions.Compiled | RegexOptions.IgnoreCase));
         #endregion
 
         #region Methods
@@ -60,6 +61,14 @@ namespace InitialMargin.Core
                 return s_RegexIsin.IsMatch(qualifier);
 
             return (!qualifier.StartsWith("ISIN:", StringComparison.OrdinalIgnoreCase) || s_RegexIsin.IsMatch(qualifier));
+        }
+
+        public static Boolean IsValidTradeReference(String tradeReference)
+        {
+            if (String.IsNullOrWhiteSpace(tradeReference))
+                return false;
+
+            return s_RegexTradeReference.IsMatch(tradeReference);
         }
 
         public static Match MatchTenor(String tenor)

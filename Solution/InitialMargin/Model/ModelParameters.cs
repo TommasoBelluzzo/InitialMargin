@@ -125,7 +125,7 @@ namespace InitialMargin.Model
                     return Amount.Of(Currency.Usd, (s_Providers[risk].GetThresholdVega(thresholdIdentifier) * MM));
 
                 default:
-                    return Amount.Zero(Currency.Usd);
+                    return Amount.OfZero(Currency.Usd);
             }
         }
 
@@ -1636,8 +1636,8 @@ namespace InitialMargin.Model
                     throw new ArgumentNullException(nameof(thresholdIdentifier));
 
                 CurrencyPair pair = (CurrencyPair)thresholdIdentifier;
-                Currency currency1 = pair.Currency1;
-                Currency currency2 = pair.Currency2;
+                Currency currency1 = pair.CurrencyBase;
+                Currency currency2 = pair.CurrencyCounter;
 
                 return THRESHOLDS_VEGA[currency1.Category][currency2.Category];
             }

@@ -90,10 +90,12 @@ namespace InitialMargin.Tests
             ReadOnlyCollection<DataEntity> dataEntities = m_TestsFixture.DataEntities;
             OutputWriterCsv writer = m_TestsFixture.WriterCsv;
 
+            Engine engine = Engine.Of(Currency.Usd, ratesProvider);
+
             String csvExpectedFile = Utilities.GetStaticFilePath(csvFile);
             String csvActualFile = Utilities.GetRandomFilePath(".csv");
 
-            MarginTotal margin = Engine.CalculateDetailed(regulationRole, DateTime.Today, Currency.Usd, ratesProvider, dataEntities);
+            MarginTotal margin = engine.CalculateDetailed(regulationRole, dataEntities);
             writer.Write(csvActualFile, margin);
 
             String expected = Utilities.ComputeHash(File.ReadAllText(csvExpectedFile));
@@ -141,10 +143,12 @@ namespace InitialMargin.Tests
             ReadOnlyCollection<DataEntity> dataEntities = m_TestsFixture.DataEntities;
             OutputWriterTree writer = m_TestsFixture.WriterTree;
 
+            Engine engine = Engine.Of(Currency.Usd, ratesProvider);
+
             String treeExpectedFile = Utilities.GetStaticFilePath(treeFile);
             String treeActualFile = Utilities.GetRandomFilePath(".txt");
             
-            MarginTotal margin = Engine.CalculateDetailed(regulationRole, DateTime.Today, Currency.Usd, ratesProvider, dataEntities);
+            MarginTotal margin = engine.CalculateDetailed(regulationRole, dataEntities);
             writer.Write(treeActualFile, margin);
 
             String expected = Utilities.ComputeHash(File.ReadAllText(treeExpectedFile));

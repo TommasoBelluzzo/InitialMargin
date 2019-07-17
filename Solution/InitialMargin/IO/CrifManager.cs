@@ -12,6 +12,7 @@ using InitialMargin.Schedule;
 
 namespace InitialMargin.IO
 {
+    /// <summary>Represents a data manager in charge of reading and writing CRIF files.</summary>
     public static class CrifManager
     {
         #region Members
@@ -65,7 +66,7 @@ namespace InitialMargin.IO
             Amount amount = ReadAmount(o);
             RegulationsInfo regulationsInfo = ReadRegulationsInfo(o);
 
-            return AddOnFixedAmount.Of(amount, regulationsInfo);
+            return AddOnFixedAmount.OfUnchecked(amount, regulationsInfo);
         }
 
         private static AddOnNotional ReadAddOnNotional(EntryObject o)
@@ -83,7 +84,7 @@ namespace InitialMargin.IO
             RegulationsInfo regulationsInfo = ReadRegulationsInfo(o);
             TradeInfo tradeInfo = ReadTradeInfo(o);
 
-            return AddOnNotional.Of(o.Qualifier, amount, regulationsInfo, tradeInfo);
+            return AddOnNotional.OfUnchecked(o.Qualifier, amount, regulationsInfo, tradeInfo);
         }
 
         private static AddOnNotionalFactor ReadAddOnNotionalFactor(EntryObject o)
@@ -107,7 +108,7 @@ namespace InitialMargin.IO
 
             RegulationsInfo regulationsInfo = ReadRegulationsInfo(o);
 
-            return AddOnNotionalFactor.Of(o.Qualifier, factor, regulationsInfo);
+            return AddOnNotionalFactor.OfUnchecked(o.Qualifier, factor, regulationsInfo);
         }
 
         private static AddOnProductMultiplier ReadProductMultiplier(EntryObject o)
@@ -131,7 +132,7 @@ namespace InitialMargin.IO
 
             RegulationsInfo regulationsInfo = ReadRegulationsInfo(o);
 
-            return AddOnProductMultiplier.Of(product, multiplier, regulationsInfo);
+            return AddOnProductMultiplier.OfUnchecked(product, multiplier, regulationsInfo);
         }
 
         private static Amount ReadAmount(EntryObject o)
@@ -145,7 +146,7 @@ namespace InitialMargin.IO
                 if (amountUsdDefined && (amountCurrency == Currency.Usd) && (amountLocal != amountUsd))
                     throw new InvalidDataException($"The CRIF file contains a {o.RiskType} entry with AmountCurrency set to \"USD\" and mismatching values of Amount and AmountUSD properties.");
 
-                return Amount.Of(amountCurrency, amountLocal);
+                return Amount.OfUnchecked(amountCurrency, amountLocal);
             }
 
             if (amountLocalDefined || amountCurrencyDefined)
@@ -159,7 +160,7 @@ namespace InitialMargin.IO
             if (!amountUsdDefined)
                 throw new InvalidDataException($"The CRIF file contains a {o.RiskType} entry with no amount information (either Amount and AmountCurrency properties or AmountUSD property must be defined).");
 
-            return Amount.Of(Currency.Usd, amountUsd);
+            return Amount.OfUnchecked(Currency.Usd, amountUsd);
         }
 
         private static EntryObject ToEntryObject(String[] values, Dictionary<String,Int32> propertiesMapping)
@@ -199,7 +200,7 @@ namespace InitialMargin.IO
             RegulationsInfo regulationsInfo = ReadRegulationsInfo(o);
             TradeInfo tradeInfo = ReadTradeInfo(o);
 
-            return Notional.Of(product, amount, regulationsInfo, tradeInfo);
+            return Notional.OfUnchecked(product, amount, regulationsInfo, tradeInfo);
         }
 
         private static PresentValue ReadPresentValue(EntryObject o)
@@ -217,7 +218,7 @@ namespace InitialMargin.IO
             RegulationsInfo regulationsInfo = ReadRegulationsInfo(o);
             TradeInfo tradeInfo = ReadTradeInfo(o);
 
-            return PresentValue.Of(product, amount, regulationsInfo, tradeInfo);
+            return PresentValue.OfUnchecked(product, amount, regulationsInfo, tradeInfo);
         }
 
         private static RegulationsInfo ReadRegulationsInfo(EntryObject o)
@@ -282,7 +283,7 @@ namespace InitialMargin.IO
             else
                 throw new InvalidDataException($"The CRIF file contains a {o.RiskType} entry with an invalid PostRegulations property.");
 
-            return RegulationsInfo.Of(collectRegulations, postRegulations);
+            return RegulationsInfo.OfUnchecked(collectRegulations, postRegulations);
         }
 
         private static Sensitivity ReadSensitivityBaseCorrelation(EntryObject o)
@@ -590,18 +591,130 @@ namespace InitialMargin.IO
 
         private static TradeInfo ReadTradeInfo(EntryObject o)
         {
-            if (String.IsNullOrEmpty(o.PortfolioId))
+            if (!DataValidator.IsValidTradeReference(o.PortfolioId))
                 throw new InvalidDataException($"The CRIF file contains a {o.RiskType} entry with an invalid portfolio identifier.");
 
-            if (String.IsNullOrEmpty(o.TradeId))
+            if (!DataValidator.IsValidTradeReference(o.TradeId))
                 throw new InvalidDataException($"The CRIF file contains a {o.RiskType} entry with an invalid trade identifier.");
 
             if (!DateTime.TryParseExact(o.EndDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime endDate))
                 throw new InvalidDataException($"The CRIF file contains a {o.RiskType} entry with an invalid EndDate property.");
 
-            return TradeInfo.Of(o.PortfolioId, o.TradeId, endDate);
+            return TradeInfo.OfUnchecked(o.PortfolioId, o.TradeId, endDate);
         }
 
+        private static void WriteDataEntity(DataEntity dataEntity, List<String[]> fieldsMatrix)
+        {
+            String[] fieldsRow = Enumerable.Repeat(String.Empty, s_Properties.Length).ToArray();
+            fieldsRow[10] = String.Join(",", dataEntity.CollectRegulations.Select(x => x.ToString().ToUpperInvariant()));
+            fieldsRow[11] = String.Join(",", dataEntity.PostRegulations.Select(x => x.ToString().ToUpperInvariant()));
+
+            if (dataEntity is DataParameter dataParameter)
+            {
+                fieldsRow[1] = "SIMM";
+
+                switch (dataParameter)
+                {
+                    case AddOnNotionalFactor addOnNotionalFactor:
+                        fieldsRow[0] = "Param_AddOnNotionalFactor";
+                        fieldsRow[3] = addOnNotionalFactor.Qualifier;
+                        fieldsRow[7] = (dataParameter.Parameter * 100m).Normalize().ToString(CultureInfo.InvariantCulture);
+                        break;
+
+                    case AddOnProductMultiplier addOnProductMultiplier:
+                        fieldsRow[0] = "Param_ProductClassMultiplier";
+                        fieldsRow[3] = addOnProductMultiplier.Product.ToString();
+                        fieldsRow[7] = (dataParameter.Parameter + 1m).Normalize().ToString(CultureInfo.InvariantCulture);
+                        break;
+
+                    default:
+                        throw new InvalidDataException($"Invalid data entity type {dataEntity.GetType().Name}.");
+                }
+            }
+            else if (dataEntity is DataValue dataValue)
+            {
+                Amount amount = dataValue.Amount;
+
+                if (amount.Currency != Currency.Usd)
+                {
+                    fieldsRow[7] = amount.ToString(CultureInfo.InvariantCulture, CurrencyCodeSymbol.None);
+                    fieldsRow[8] = amount.Currency.ToString().ToUpperInvariant();
+                }
+                else
+                    fieldsRow[9] = amount.ToString(CultureInfo.InvariantCulture, CurrencyCodeSymbol.None);
+
+                switch (dataEntity)
+                {
+                    case AddOnFixedAmount _:
+                        fieldsRow[0] = "Param_AddOnFixedAmount";
+                        fieldsRow[1] = "SIMM";
+                        break;
+
+                    case AddOnNotional addOnNotional:
+                        fieldsRow[0] = "Notional";
+                        fieldsRow[1] = "SIMM";
+                        fieldsRow[3] = addOnNotional.Qualifier;
+                        fieldsRow[12] = addOnNotional.PortfolioId;
+                        fieldsRow[13] = addOnNotional.TradeId;
+                        fieldsRow[14] = addOnNotional.EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        break;
+
+                    case Notional notional:
+                        fieldsRow[0] = "Notional";
+                        fieldsRow[1] = "Schedule";
+                        fieldsRow[2] = notional.Product.ToString();
+                        fieldsRow[12] = notional.PortfolioId;
+                        fieldsRow[13] = notional.TradeId;
+                        fieldsRow[14] = notional.EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        break;
+
+                    case PresentValue presentValue:
+                        fieldsRow[0] = "PV";
+                        fieldsRow[1] = "Schedule";
+                        fieldsRow[2] = presentValue.Product.ToString();
+                        fieldsRow[12] = presentValue.PortfolioId;
+                        fieldsRow[13] = presentValue.TradeId;
+                        fieldsRow[14] = presentValue.EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        break;
+
+                    case Sensitivity sensitivity:
+                    {
+                        fieldsRow[0] = sensitivity.Identifier;
+                        fieldsRow[1] = "SIMM";
+                        fieldsRow[2] = sensitivity.Product.ToString();
+                        fieldsRow[3] = sensitivity.Qualifier.Replace("/", String.Empty);
+
+                        if (sensitivity.Bucket is Currency currency)
+                        {
+                            if (sensitivity.Identifier == "Risk_IRCurve")
+                                fieldsRow[4] = ((Int32)currency.Volatility + 1).ToString();
+                        }
+                        else if (!(sensitivity.Bucket is Placeholder))
+                            fieldsRow[4] = sensitivity.Bucket.ToString();
+
+                        fieldsRow[5] = sensitivity.Label1;
+                        fieldsRow[6] = DataValidator.FormatLibor(sensitivity.Label2, false);
+                        fieldsRow[12] = sensitivity.PortfolioId;
+                        fieldsRow[13] = sensitivity.TradeId;
+                        fieldsRow[14] = sensitivity.EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        
+                        break;
+                    }
+
+                    default:
+                        throw new InvalidDataException($"Invalid data entity type {dataEntity.GetType().Name}.");
+                }
+            }
+
+            fieldsMatrix.Add(fieldsRow);
+        }
+
+        /// <summary>Opens a CRIF file and reads its content.</summary>
+        /// <param name="filePath">The <see cref="T:System.String"/> representing the file to open for reading.</param>
+        /// <returns>An <see cref="System.Collections.Generic.ICollection{T}"/> of <see cref="T:InitialMargin.Core.DataEntity"/> objects defined in the CRIF file.</returns>
+        /// <exception cref="T:System.ArgumentException">Thrown when <paramref name="filePath">filePath</paramref> is invalid or does not refer to a CSV file.</exception>
+        /// <exception cref="T:System.IO.FileNotFoundException">Thrown when <paramref name="filePath">filePath</paramref> could not be found.</exception>
+        /// <exception cref="T:System.IO.InvalidDataException">Thrown when the CRIF file contains invalid or malformed data.</exception>
         public static ICollection<DataEntity> Read(String filePath)
         {
             List<String[]> fieldsMatrix = CsvParser.Parse(filePath, Encoding.UTF8, '\t', false);
@@ -728,116 +841,18 @@ namespace InitialMargin.IO
             return entities;
         }
 
-        private static void WriteDataEntity(DataEntity dataEntity, List<String[]> fieldsMatrix)
-        {
-            String[] fieldsRow = Enumerable.Repeat(String.Empty, s_Properties.Length).ToArray();
-            fieldsRow[10] = String.Join(",", dataEntity.CollectRegulations.Select(x => x.ToString().ToUpperInvariant()));
-            fieldsRow[11] = String.Join(",", dataEntity.PostRegulations.Select(x => x.ToString().ToUpperInvariant()));
-
-            if (dataEntity is DataParameter dataParameter)
-            {
-                fieldsRow[1] = "SIMM";
-
-                switch (dataParameter)
-                {
-                    case AddOnNotionalFactor addOnNotionalFactor:
-                        fieldsRow[0] = "Param_AddOnNotionalFactor";
-                        fieldsRow[3] = addOnNotionalFactor.Qualifier;
-                        fieldsRow[7] = (dataParameter.Parameter * 100m).Normalize().ToString(CultureInfo.InvariantCulture);
-                        break;
-
-                    case AddOnProductMultiplier addOnProductMultiplier:
-                        fieldsRow[0] = "Param_ProductClassMultiplier";
-                        fieldsRow[3] = addOnProductMultiplier.Product.ToString();
-                        fieldsRow[7] = (dataParameter.Parameter + 1m).Normalize().ToString(CultureInfo.InvariantCulture);
-                        break;
-
-                    default:
-                        throw new InvalidDataException($"Invalid data entity type {dataEntity.GetType().Name}.");
-                }
-            }
-            else if (dataEntity is DataValue dataValue)
-            {
-                Amount amount = dataValue.Amount;
-
-                if (amount.Currency != Currency.Usd)
-                {
-                    fieldsRow[7] = amount.ToString(CultureInfo.InvariantCulture, CurrencyCodeSymbol.None);
-                    fieldsRow[8] = amount.Currency.ToString().ToUpperInvariant();
-                }
-                else
-                    fieldsRow[9] = amount.ToString(CultureInfo.InvariantCulture, CurrencyCodeSymbol.None);
-
-                switch (dataEntity)
-                {
-                    case AddOnFixedAmount _:
-                        fieldsRow[0] = "Param_AddOnFixedAmount";
-                        fieldsRow[1] = "SIMM";
-                        break;
-
-                    case AddOnNotional addOnNotional:
-                        fieldsRow[0] = "Notional";
-                        fieldsRow[1] = "SIMM";
-                        fieldsRow[3] = addOnNotional.Qualifier;
-                        fieldsRow[12] = addOnNotional.PortfolioId;
-                        fieldsRow[13] = addOnNotional.TradeId;
-                        fieldsRow[14] = addOnNotional.EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-                        break;
-
-                    case Notional notional:
-                        fieldsRow[0] = "Notional";
-                        fieldsRow[1] = "Schedule";
-                        fieldsRow[2] = notional.Product.ToString();
-                        fieldsRow[12] = notional.PortfolioId;
-                        fieldsRow[13] = notional.TradeId;
-                        fieldsRow[14] = notional.EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-                        break;
-
-                    case PresentValue presentValue:
-                        fieldsRow[0] = "PV";
-                        fieldsRow[1] = "Schedule";
-                        fieldsRow[2] = presentValue.Product.ToString();
-                        fieldsRow[12] = presentValue.PortfolioId;
-                        fieldsRow[13] = presentValue.TradeId;
-                        fieldsRow[14] = presentValue.EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-                        break;
-
-                    case Sensitivity sensitivity:
-                    {
-                        fieldsRow[0] = sensitivity.Identifier;
-                        fieldsRow[1] = "SIMM";
-                        fieldsRow[2] = sensitivity.Product.ToString();
-                        fieldsRow[3] = sensitivity.Qualifier.Replace("/", String.Empty);
-
-                        if (sensitivity.Bucket is Currency currency)
-                        {
-                            if (sensitivity.Identifier == "Risk_IRCurve")
-                                fieldsRow[4] = ((Int32)currency.Volatility + 1).ToString();
-                        }
-                        else if (!(sensitivity.Bucket is Placeholder))
-                            fieldsRow[4] = sensitivity.Bucket.ToString();
-
-                        fieldsRow[5] = sensitivity.Label1;
-                        fieldsRow[6] = DataValidator.FormatLibor(sensitivity.Label2, false);
-                        fieldsRow[12] = sensitivity.PortfolioId;
-                        fieldsRow[13] = sensitivity.TradeId;
-                        fieldsRow[14] = sensitivity.EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-                        
-                        break;
-                    }
-
-                    default:
-                        throw new InvalidDataException($"Invalid data entity type {dataEntity.GetType().Name}.");
-                }
-            }
-
-            fieldsMatrix.Add(fieldsRow);
-        }
-
+        /// <summary>Creates a new CRIF file and writes the specified entities to it. If the target file already exists, it is overwritten.</summary>
+        /// <param name="filePath">The <see cref="T:System.String"/> representing the file to write to.</param>
+        /// <param name="dataEntities">The <see cref="System.Collections.Generic.ICollection{T}"/> of <see cref="T:InitialMargin.Core.DataEntity"/> objects to write.</param>
+        /// <exception cref="T:System.ArgumentException">Thrown when <paramref name="filePath">filePath</paramref> is invalid or does not refer to a CSV file.</exception>
+        /// <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="dataEntities">dataEntities</paramref> is <c>null</c>, when <paramref name="dataEntities">dataEntities</paramref> contains <c>null</c> values or when <paramref name="dataEntities">dataEntities</paramref> contains sensitivities originated from a transformation process.</exception>
         public static void Write(String filePath, ICollection<DataEntity> dataEntities)
         {
             if (String.IsNullOrWhiteSpace(filePath))
                 throw new ArgumentException("Invalid file path specified.", nameof(filePath));
+
+            if (Path.GetExtension(filePath).ToUpperInvariant() != ".CSV")
+                throw new ArgumentException("The specified file must be a valid CSV.", nameof(filePath));
 
             if (dataEntities == null)
                 throw new ArgumentNullException(nameof(dataEntities));
@@ -846,7 +861,7 @@ namespace InitialMargin.IO
                 throw new ArgumentException("One or more data entities are null.", nameof(dataEntities));
 
             if (dataEntities.Any(x => (x is Sensitivity sensitivity) && (String.IsNullOrEmpty(sensitivity.Identifier) || (sensitivity.Category == SensitivityCategory.Curvature))))
-                throw new ArgumentException("The specified data entities contain sensitivities produced by a transformation process.", nameof(dataEntities));
+                throw new ArgumentException("The specified data entities contain sensitivities originated from a transformation process.", nameof(dataEntities));
 
             List<String[]> fieldsMatrix = new List<String[]>(dataEntities.Count);
             

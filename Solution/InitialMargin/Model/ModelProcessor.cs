@@ -70,7 +70,7 @@ namespace InitialMargin.Model
             Amount productMarginsAmount = Amount.Sum(productMargins.Select(x => x.Value), m_CalculationCurrency);
 
             MarginAddOn addOnMargin = ModelCalculations.CalculateMarginAddOn(m_CalculationCurrency, productMargins, productMultipliers, notionals, notionalFactors, fixedAmounts);
-            Amount addOnMarginAmount = addOnMargin?.Value ?? Amount.Zero(m_CalculationCurrency);
+            Amount addOnMarginAmount = addOnMargin?.Value ?? Amount.OfZero(m_CalculationCurrency);
 
             Amount modelMarginAmount = productMarginsAmount + addOnMarginAmount;
             Margin modelMargin = Margin.Of(modelMarginAmount, productMargins, addOnMargin);
