@@ -10,7 +10,9 @@ It has been built to be compatible with [Common Risk Interchange Format (CRIF™
 
 InitialMargin is...
 
- * `Easy to deploy`: all what it requires is compliant input data, either in the form of a `CRIF` file or as a runtime-generated list of data entities;
+ * `Easy-to-Deploy`: all what it requires is compliant input data, either in the form of a `CRIF` file or as a runtime-generated list of data entities;
+ * `Easy-to-Maintain`: periodic updates to Initial Margin models are easy to integrate and require only minor changes to the library algorithms;
+ * `Stable`: the library implements strong data validation routines and a very detailed exception handling framework.
 
 ## Requirements
  
