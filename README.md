@@ -10,7 +10,7 @@ It has been built to be compatible with [Common Risk Interchange Format (CRIF™
 
 InitialMargin is...
 
- * `Easy to deploy`: all what it requires is input data;
+ * `Easy to deploy`: all what it requires is compliant input data, either in the form of a `CRIF` file or as a runtime-generated list of data entities;
 
 ## Requirements
  
