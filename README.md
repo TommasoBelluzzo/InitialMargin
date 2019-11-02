@@ -8,16 +8,17 @@ Both models can handle `Post` and `Collect` regulations through a worst-of appro
 
 ## Disclaimer
 
-This library has been created for educational purposes. Users who are interested in calculating Initial Margin values using `SIMM™` for commercial activities must contact [ISDA](https://www.isda.org) in order to validate its output against a unit test and obtain a license.
+This library has been created for educational purposes. Users who are interested using the `SIMM™` methodology for commercial activities must contact [ISDA](https://www.isda.org) in order to validate the library output against a unit test and obtain a license.
 
 ## Main Features
 
 InitialMargin is...
 
  * `Easy-to-Deploy`: all what it requires is compliant input data, either in the form of a `CRIF` file or as a runtime-generated list of data entities;
+ * `Easy-to-Extend`: new initial margin calculation methodologies are easy to integrate into the library by extending the existing base classes;
  * `Easy-to-Maintain`: periodic updates to Initial Margin models are easy to integrate and require only minor changes to the library algorithms;
  * `Stable`: the library implements strong data validation routines and a very detailed exception handling framework.
 
 ## Requirements
  
-The library is os-agnostic (it has been developed under .NET Standard 2.0) and platform-agnostic, (both x86 and x64 environments are supported). The project targets Visual Studio 2017.
+The library is OS-agnostic (it has been developed under .NET Standard 2.0) and platform-agnostic (both x86 and x64 environments are supported). The project targets Visual Studio 2017.
